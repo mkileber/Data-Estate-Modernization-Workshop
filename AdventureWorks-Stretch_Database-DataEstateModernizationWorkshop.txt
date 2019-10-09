@@ -1,0 +1,39 @@
+Azure:
+------
+1: Get-AzureRmResourceProvider –ListAvailable
+
+Specifically: Get-AzureRmResourceProvider -provider Microsoft.sql
+
+2: Register-AzureRmResourceProvider -ProviderNamespace Microsoft.Sql
+
+Azure VM:
+---------
+1: Get the Data Migration Assistant
+https://docs.microsoft.com/en-us/sql/sql-server/stretch-database/stretch-database-databases-and-tables-stretch-database-advisor
+Under Identify databases and tables go the download link in section Get Data Migration Assistant or directly from the link below.
+https://www.microsoft.com/download/details.aspx?id=53595
+2: Install the Data Migration Assistant
+3: In SSMS on configuring Stretch Databse IP range: 0.0.0.0 – 255.255.255.255
+
+T-SQL:
+------
+sp_configure 'remote data archive',1
+go
+reconfigure
+go
+
+Create Azure SQL DB and corresponding Server.
+
+USE AdventureWorks2017
+-- If you don't already have a master key then do this:
+CREATE MASTER KEY ENCRYPTION BY PASSWORD= 'AzureLS1Setup!';
+-- If you have an existing master key, then open it like this:
+OPEN MASTER KEY DECRYPTION BY PASSWORD= 'AzureLS1Setup!';
+
+-- In the same query window where you created or opened the master key:
+CREATE DATABASE SCOPED CREDENTIAL StretchArticlePassword
+WITH 
+  IDENTITY = 'mkileber'
+  ,SECRET = 'AzureLS1Setup!';
+GO
+

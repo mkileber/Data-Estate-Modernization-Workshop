@@ -1,0 +1,16 @@
+Azure DataSyncService:
+----------------------
+1: Create CMD Shortcut on the Desktop, right click, „Run as Administrator”
+2: SECPOL.MSC
+3: Add your user account to „Logon as a Service” if you plan to use a domain account for running the service, else use the command line with LocalSystem,
+4: Start SQLDataSyncAgent-2.0-x86-ENU installation from CMD (https://www.microsoft.com/en-us/download/details.aspx?id=27693).
+5: CMD: msiexec /i "SQLDataSyncAgent-2.0-x64-ENU.msi" TARGETDIR="C:\Program Files (x86)\Microsoft SQL Data Sync 2.0" SERVICEACCOUNT="LocalSystem" /qn
+
+Azure Query of synchronized Data:
+---------------------------------
+Data Explorer is now called Query Editor (Preview) in the Azure Portal after selecting the Azure SQL Database (Member).
+
+USE AdventureWorks2017
+SET IDENTITY_INSERT Sales.TrackingEvent ON
+insert into Sales.TrackingEvent (TrackingEventID, EventName) VALUES (9, N'Delivery Sync')
+GO
